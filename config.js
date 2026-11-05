@@ -5,7 +5,7 @@ const required = [
   'RECORDER_ROLE_ID',
   'NOTION_TOKEN',
   'NOTION_DATABASE_ID',
-  'OPENAI_API_KEY',
+  'GROQ_API_KEY',
   'ANTHROPIC_API_KEY',
 ];
 
@@ -36,8 +36,9 @@ export const config = {
   notionDatabaseId: process.env.NOTION_DATABASE_ID.replace(/-/g, ''),
   notionVersion: process.env.NOTION_VERSION || '2022-06-28',
 
-  openaiKey: process.env.OPENAI_API_KEY,
-  transcribeModel: process.env.TRANSCRIBE_MODEL || 'gpt-4o-mini-transcribe',
+  groqKey: process.env.GROQ_API_KEY,
+  transcribeUrl: process.env.TRANSCRIBE_URL || 'https://api.groq.com/openai/v1/audio/transcriptions',
+  transcribeModel: process.env.TRANSCRIBE_MODEL || 'whisper-large-v3-turbo',
   transcribeLanguage: process.env.TRANSCRIBE_LANGUAGE || 'zh',
 
   anthropicKey: process.env.ANTHROPIC_API_KEY,

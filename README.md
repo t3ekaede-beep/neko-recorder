@@ -34,7 +34,7 @@
 3. 資料庫欄位名稱不要改，bot 依名稱寫入
 
 ### 4. API 金鑰
-‧ OpenAI：https://platform.openai.com/api-keys 建立金鑰，並到 Billing → Limits 設每月上限
+‧ Groq（轉文字，免費方案）：https://console.groq.com 註冊後到 API Keys 建立金鑰，額度以 Limits 頁面為準
 ‧ Anthropic：https://console.anthropic.com 建立金鑰，並設定每月消費上限
 
 ### 5. GitHub
@@ -61,6 +61,10 @@
 ‧ Railway 重新部署或重啟時，進行中的錄音會遺失；錄音期間不要改設定
 ‧ Notion 頁面歷史可能留有已清除音檔的舊版本，不等於立即徹底刪除
 ‧ 逐字稿由語音辨識產生，會有錯字；摘要不會下錄取結論
+‧ 免費的 Whisper 可能輸出簡體字，摘要由 Claude 負責，會用繁體；如果逐字稿常出現簡體，回報給我再調整
+‧ Groq 免費方案限額：每分鐘 20 次、每小時 7200 秒音檔；超過時 bot 會自動等待重試，長會議整理會比較慢
+‧ 逐字稿的音檔會送到 Groq 處理，Groq 說明預設不保留，但可能暫存最長 30 天；要更嚴格可在 Groq 的 Data Controls 開啟 Zero Data Retention
 
 ## 版本紀錄
 ‧ v1.0（2026-11-05）：初版
+‧ v1.1（2026-11-05）：轉文字從 OpenAI 改為 Groq 免費方案，環境變數 OPENAI_API_KEY 改為 GROQ_API_KEY

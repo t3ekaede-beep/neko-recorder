@@ -1,7 +1,8 @@
-// 轉文字（OpenAI）與摘要（Claude）。
+// 轉文字（Groq 的 Whisper，免費方案）與摘要（Claude）。
 import { config } from './config.js';
 import { withRetry, httpError } from './http.js';
 
+// Groq 免費方案每分鐘 20 次、每小時 7200 秒音檔；超過會回 429，這裡最多重試 5 次並遵守 retry-after。
 export function transcribe(wavBuffer) {
   return withRetry(async () => {
     const form = new FormData();
@@ -9,17 +10,18 @@ export function transcribe(wavBuffer) {
     form.append('model', config.transcribeModel);
     form.append('language', config.transcribeLanguage);
     form.append('response_format', 'json');
-    form.append('prompt', '以下是 Discord 社群「貓居」的語音對話，請使用繁體中文。');
+    form.append('temperature', '0');
+    form.append('prompt', '以下是繁體中文的語音對話，使用台灣用語。');
 
-    const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    const res = await fetch(config.transcribeUrl, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${config.openaiKey}` },
+      headers: { Authorization: `Bearer ${config.groqKey}` },
       body: form,
     });
     if (!res.ok) throw await httpError(res, '轉文字');
     const data = await res.json();
     return (data.text || '').trim();
-  }, '轉文字');
+  }, '轉文字', 5);
 }
 
 const TEMPLATES = {
